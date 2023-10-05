@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Housing predict</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        /* Background theme styles */
+        html, body {
+            background-color: #90EE90; /* Set your desired background color */
+        }
+        /* Custom styles for the title */
+        .beautiful-title {
+            font-size: 50px;
+            font-family: "Georgia", serif; /* Change to your desired font family */
+            color: #333; /* Change to your desired font color */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 2px; /* Adjust letter spacing as needed */
+            text-align: center; /* Center-align the text */
+            margin-top: 30px; /* Add margin to separate from content */
+        }
+
+        /* Change the color of blue-rating to black */
+        .blue-rating {
+            color: black; /* Change the color to black */
+        }
+
+        /* Change the font color of restro_name, sector, and price to black */
+        .restaurant-info {
+            color: black; /* Change the color to black */
+        }
+
+        /* Style for clickable list items */
+        .clickable-list-item {
+            cursor: pointer;
+        }
+    </style>
+    <style>
+        /* Custom styles for the title */
+        .beautiful {
+            font-size: 20px;
+            font-family: "Georgia", serif; /* Change to your desired font family */
+            color: grey; /* Change to your desired font color */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 2px; /* Adjust letter spacing as needed */
+            text-align: center; /* Center-align the text */
+            margin-top: 30px; /* Add margin to separate from content */
+        }
+
+        /* Change the color of blue-rating to black */
+        .blue-rating {
+            color: black; /* Change the color to black */
+        }
+
+        /* Change the font color of restro_name, sector, and price to black */
+        .restaurant-info {
+            color: black; /* Change the color to black */
+        }
+
+        /* Style for clickable list items */
+        .clickable-list-item {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body style="background-color:white">
+
+    <nav class="navbar" style="background-color:#56b5ca">
+        <a class="navbar-brand" style="color: white; font-size: 32px; font-family: 'Your Font Here', sans-serif;">Gurgaon Housing World</a>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/home" style="color: white;">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" style="color: white;">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div style="margin-top: 20px; width: 250px; font-family: 'Your Font Here', sans-serif; height: 40px; background-color:#669CCB; text-align: center; padding: 5px; border-radius: 7px;">
+            <p style="margin: 0; font-size: 20px; color: white;">Select Your Requirments</p>
+        </div>
+        <form action="/predict_price" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="property" style="font-size: 18px; font-weight: bold; color: #333;">Choose a Property Type:</label>
+                            <select class="form-control" id="property" name="property" style="font-family: 'Playfair Display', sans-serif; font-size: 16px; border: 1px solid #ccc;">
+                                {% for property in property %}
+                                <option value="{{ property }}">{{ property }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sector" style="font-size: 18px; font-weight: bold; color: #333;">Choose a Sector:</label>
+                            <select class="form-control" id="sector" name="sector" style="font-family: 'Your Font Here', sans-serif; font-size: 16px; border: 1px solid #ccc;">
+                                {% for sector in sector %}
+                                <option value="{{ sector }}">{{ sector }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="bedroom" style="font-size: 18px; font-weight: bold; color: #333;">Select a Bedroom:</label>
+                            <select class="form-control" id="bedroom" name="bedroom">
+                                {% for bedroom in bedroom %}
+                                <option value="{{ bedroom }}">{{ bedroom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="bathroom" style="font-size: 18px; font-weight: bold; color: #333;">Select a BathRoom:</label>
+                            <select class="form-control" id="bathroom" name="bathroom">
+                                {% for bathroom in bathroom %}
+                                <option value="{{ bathroom }}">{{ bathroom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="balcony" style="font-size: 18px; font-weight: bold; color: #333;">Select a Balcony:</label>
+                            <select class="form-control" id="balcony" name="balcony">
+                                {% for balcony in balcony %}
+                                <option value="{{ balcony }}">{{ balcony }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="age" style="font-size: 18px; font-weight: bold; color: #333;">Select a Property By Age:</label>
+                            <select class="form-control" id="age" name="age">
+                                {% for age in age %}
+                                <option value="{{ age }}">{{ age }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="built_up" style="font-size: 18px; font-weight: bold; color: #333;">Type a Built Up Area:</label>
+                            <input type="text" class="form-control" id="built_up" name="built_up" value="1750">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="servantroom" style="font-size: 18px; font-weight: bold; color: #333;">Select a ServantRoom:</label>
+                            <select class="form-control" id="servantroom" name="servantroom">
+                                {% for servantroom in servantroom %}
+                                <option value="{{ servantroom }}">{{ servantroom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="storeroom" style="font-size: 18px; font-weight: bold; color: #333;">Select a StoreRoom:</label>
+                            <select class="form-control" id="storeroom" name="storeroom">
+                                {% for storeroom in storeroom %}
+                                <option value="{{ storeroom }}">{{ storeroom }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="furnishing" style="font-size: 18px; font-weight: bold; color: #333;">Select a Furnish Type:</label>
+                            <select class="form-control" id="furnishing" name="furnishing">
+                                {% for furnishing in furnishing %}
+                                <option value="{{ furnishing }}">{{ furnishing }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="floor" style="font-size: 18px; font-weight: bold; color: #333;">Select a Floor Type:</label>
+                            <select class="form-control" id="floor" name="floor">
+                                {% for floor in floor %}
+                                <option value="{{ floor }}">{{ floor }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div style="margin-top: 20px; width: 650px; font-family: 'Your Font Here', sans-serif; height: 40px; background-color:#aacbba; text-align: center; padding: 5px; border-radius: 7px;">
+<!--        <div class="result">-->
+            <h1 style="margin: 0; font-size: 25px; color: white;">The price of the flat is between {{ low1 }} Cr To {{ high1 }} Cr </h1>
+        </div>
+        <h1 style="margin-top: 150px; width: 250px; color: white; font-family: 'Your Font Here', sans-serif; height: 40px;">Maa</h1>
+    </div>
+</body>
+</html>
